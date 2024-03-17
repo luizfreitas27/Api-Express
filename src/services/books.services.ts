@@ -1,16 +1,20 @@
 import { booksDatabase, getId } from "../database/database";
-import { IBooks, TCreateBook, TGetOneBook, TUpdateBook } from "../interfaces/interfaces";
+import {
+  IBooks,
+  TCreateBook,
+  TGetOneBook,
+  TUpdateBook,
+} from "../interfaces/interfaces";
 
 interface IBooksServices {
   create(body: TCreateBook): IBooks;
   get(): IBooks[];
-  getOne(id: string):IBooks;
-  delete(id: string):void;
-  update(id: string, body: TUpdateBook):IBooks;
+  getOne(id: string): IBooks;
+  delete(id: string): void;
+  update(id: string, body: TUpdateBook): IBooks;
 }
 
-export class BooksServices implements IBooksServices{
-  
+export class BooksServices implements IBooksServices {
   create(body: TCreateBook): IBooks {
     const date = new Date();
 
@@ -21,7 +25,7 @@ export class BooksServices implements IBooksServices{
       category: body.category,
       createdAt: date,
       updatedAt: date,
-    }
+    };
 
     booksDatabase.push(newBook);
 
@@ -37,31 +41,30 @@ export class BooksServices implements IBooksServices{
       return book.id === Number(id);
     }) as IBooks;
 
-    return foundBook; 
+    return foundBook;
   }
 
-  delete(id: string): void{
+  delete(id: string): void {
     const index = booksDatabase.findIndex((book) => {
       return book.id === Number(id);
-    })
+    });
 
     booksDatabase.splice(index, 1);
   }
 
-  update(id: string, body: Partial<TCreateBook>): IBooks {
-    const currentBook = booksDatabase.find(book => book.id === Number(id)) as IBooks;
-    
-    const index = booksDatabase.findIndex(book => book.id === Number(id));
-    
+  update(id: string, body: TUpdateBook): IBooks {
+    const currentBook = booksDatabase.find(
+      (book) => book.id === Number(id),
+    ) as IBooks;
+
+    const index = booksDatabase.findIndex((book) => book.id === Number(id));
+
     const date = new Date();
 
-    const newBook: IBooks = {...currentBook, ...body, updatedAt: date};
+    const newBook: IBooks = { ...currentBook, ...body, updatedAt: date };
 
     booksDatabase.splice(index, 1, newBook);
 
     return newBook;
-    
   }
-
- 
 }

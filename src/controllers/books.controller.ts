@@ -1,9 +1,8 @@
 import { Request, Response, response } from "express";
 import { BooksServices } from "../services/books.services";
-import { IBooks } from "../interfaces/interfaces";
 
 export class BooksControllers {
-  createBookController(req: Request, res: Response): Response{
+  createBookController(req: Request, res: Response): Response {
     const bookService = new BooksServices();
 
     const response = bookService.create(req.body);
@@ -11,26 +10,23 @@ export class BooksControllers {
     return res.status(201).json(response);
   }
 
-  getAllBooksController(req: Request, res: Response): Response{
+  getAllBooksController(req: Request, res: Response): Response {
     const bookService = new BooksServices();
 
     const response = bookService.get();
 
     return res.status(200).json(response);
-
   }
 
-  
-  getOneBookController(req: Request, res: Response): Response{
+  getOneBookController(req: Request, res: Response): Response {
     const bookService = new BooksServices();
 
     const response = bookService.getOne(req.params.id);
 
     return res.status(200).json(response);
-
   }
 
-  deleteBookController(req: Request, res: Response): Response{
+  deleteBookController(req: Request, res: Response): Response {
     const bookService = new BooksServices();
 
     bookService.delete(req.params.id);
@@ -44,6 +40,5 @@ export class BooksControllers {
     const response = bookService.update(req.params.id, req.body);
 
     return res.status(200).json(response);
-
   }
 }
